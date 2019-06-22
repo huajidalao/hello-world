@@ -1,0 +1,47 @@
+
+.btn {
+   top: 44px;
+   bottom: 50px; 
+  
+}
+.btn .search {
+   border: 1px solid #069; 
+   height: 28px;
+   margin-bottom: 20px;
+}
+.btn .container {
+    padding: 10px;
+}
+.btn .search-text {
+    width: 80%;
+    height: 100%;
+    line-height: 28px;
+    border: none;
+    padding: 0 12px 0 6px;
+    font-size: 14px;
+}
+.btn .search-button {
+    float: right;
+    border: none;
+    background-color: #069;
+    height: 100%;
+    width: 60px;
+    border-radius: 0;
+    line-height: 1;
+    color: #ccc;
+}
+
+.container .history {
+    color: #8f8f94;
+    margin-top: 5px;
+    padding-bottom: 10px;
+    font-size: 14px;
+    font-weight: 400;
+    border-bottom: 1px solid #ccc;
+}
+.container .history span {
+    float: right;
+}
+.container .history span:before {
+    content: "\f1f8";
+}

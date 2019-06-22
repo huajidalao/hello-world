@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="assets/fontAwesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/mui/css/mui.min.css">
+    <script src = "assets/zepto/zepto.min.js"></script>
+    <script src = "assets/mui/js/mui.min.js"></script>
+    <script src="assets/artTemplate/template-native.js"></script>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/category.css">
+    <script src="js/public.js"></script>
+
+</head>
+
+<body>
+    <header class="mui-bar mui-bar-nav my-header">
+        <a class="mui-action-back mui-icon mui-icon-search mui-pull-right"></a>
+        <h1 class="mui-title">移动乐淘</h1>
+    </header>
+
+    <nav class="mui-bar mui-bar-tab my-footer">
+        <a class="mui-tab-item" href="index.html">
+            <span class="mui-icon mui-icon-home"></span>
+            <span class="mui-tab-label">首页</span>
+        </a>
+        <a class="mui-tab-item mui-active" href="category.html">
+            <span class="mui-icon mui-icon-email"><span class="mui-badge">9</span></span>
+            <span class="mui-tab-label">分类</span>
+        </a>
+        <a class="mui-tab-item" href="cart.html">
+            <span class="mui-icon fa fa-shopping-cart"></span>
+            <span class="mui-tab-label">购物车</span>
+        </a>
+        <a class="mui-tab-item" href="user.html">
+            <span class="mui-icon mui-icon-gear"></span>
+            <span class="mui-tab-label">设置</span>
+        </a>
+    </nav>
+
+    <!-- 做中间的内容 -->
+    <div class="my-content">
+        <!-- 左侧栏 -->
+        <div class="cate-list">
+            <!-- 这里是用mui区域滚动滚动的框架来做 -->
+            <div class="mui-scroll-wrapper">
+                <div class="mui-scroll">
+                    <!--这里放置真实显示的DOM内容-->
+                    <div id="leftcate">
+                        <a href="#" class="items active">运动馆</a>
+                        <a href="#" class="items">运动馆</a>
+                        <a href="#" class="items">运动馆</a>
+                        <a href="#" class="items">运动馆</a>
+
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- /这里是用mui区域滚动滚动的框架来做 -->
+
+
+
+        </div>
+        <!-- /左侧栏 -->
+
+        <!-- 右侧栏 -->
+        <div class="cont-list">
+            <div class="mui-scroll-wrapper">
+                <div class="mui-scroll">
+                    <!--这里放置真实显示的DOM内容-->
+                    <div id="rightcate" class="mui-clearfix">
+                        <a href="#">
+                            <img src="images/brand1.png" alt="">
+                            <p>耐克</p>
+                        </a>
+                        <a href="#">
+                            <img src="images/brand2.png" alt="">
+                            <p>耐克</p>
+                        </a>
+                        <a href="#">
+                            <img src="images/brand3.png" alt="">
+                            <p>耐克</p>
+                        </a>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /右侧栏 -->
+    </div>
+
+
+
+
+    <!-- /做中间的内容 -->
+</body>
+
+</html>
+<!-- 模板1 -->
+<script type="text/template" id="template">
+    <% for(var i=0;i<rows.length;i++) { %>
+    <a href="#" class="items" data-id="<%=rows[i].id %>"><%=rows[i].categoryName %></a>
+    <% } %>
+</script>
+<!-- /模板2 -->
+
+<!-- 模板2   -->
+<script type="text/template" id="template2">
+    <% for(var i=0;i<rows.length;i++) { %>
+        <a href="#">
+            <img src="<%=rows[i].brandLogo %>" alt="">
+            <p><%=rows[i].brandName %></p>
+        </a>
+    <% } %>
+
+    <% if(!total) { %>
+        <p class="none">暂无数据</p>
+    <% } %>
+</script>
+
+<script>
+    mui('.mui-scroll-wrapper').scroll({
+        deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+    });
+
+    // 做刷新页面直接把数据渲染出来
+    $.ajax({
+        type: "get",
+        url: "/category/queryTopCategory",
+        data: {},
+        dataType: "json",
+        success: function (res) {
+            console.log(res);
+            //数据请求到了，用模板渲染
+            if(res) {
+                var html = template("template",res);
+                // console.log(html)
+                $("#leftcate").html(html);
+                $("#leftcate a").eq(0).addClass("active").siblings().removeClass("active");
+            }
+        }
+    })
+
+    // 然后做点击事件，业务逻辑是点击左侧，右侧就显示对应的内容
+    $("#leftcate").on("click","a",function(){
+        var id = $(this).attr("data-id");
+        $(this).addClass("active").siblings().removeClass("active");
+        $.ajax({
+            type: "get",
+            url: "/category/querySecondCategory",
+            data: {id},
+            dataType: "json",
+            success: function (res) {
+                console.log(res)
+                    // 也是用模板渲染页面
+                    var html = template("template2",res);
+                    // console.log(html);
+                    $("#rightcate").html(html);
+            }
+        })
+    })
+
+
+
+
+
+</script>

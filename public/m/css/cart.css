@@ -1,0 +1,68 @@
+
+div.mui-scroll-wrapper {
+    position: absolute;
+    top: 44px;
+    bottom: 50px;
+    width: 100%;
+
+}
+
+.mui-media-body p {
+    font-size: 14px;
+    color: #ccc;
+}
+.mui-ellipsis {
+    font-size: 14px;
+}
+.mui-ellipsis .price {
+    color: red;
+}
+.mui-ellipsis .oldPrice {
+    color: #ccc;
+    text-decoration: line-through;
+}
+
+.mui-ellipsis .num {
+    color: #ccc;
+} 
+.mui-ellipsis .shoeSize {
+    color: #ccc;
+}
+
+.total {
+    padding: 10px 0 0 20px;
+}
+
+.detail-size span {
+    width: 28px;
+    height: 28px;
+    display: inline-block;
+    background-color: #fff;
+    margin-right: 10px;
+    margin-top: 10px;
+    text-align: center;
+    border: 1px solid #ccc;
+    line-height: 28px;
+}
+.detail-num {
+    margin-top: 10px;
+}
+.detail-num input,.detail-num span {
+    width: 30px;
+    height: 28px;
+    line-height: 28px;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    vertical-align: top;
+}
+.detail-num input {
+    border-right: none;
+    border-left: none;
+
+}
+.detail-num span {
+    border: 1px solid #ccc;
+    display: inline-block;
+    margin-left: -5px;
+}

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="assets/mui/css/mui.min.css">
+    <link rel="stylesheet" href="assets/fontAwesome/css/font-awesome.min.css">
+    <script src="assets/mui/js/mui.min.js"></script>
+    <script src="assets/zepto/zepto.min.js"></script>
+    <link rel="stylesheet" href="css/base.css">
+    <script src="assets/artTemplate/template-native.js"></script>
+    <script src="js/public.js"></script>
+    <link rel="stylesheet" href="css/detail.css">
+    <script src="js/detail.js"></script>
+</head>
+
+<body>
+    <header class="mui-bar mui-bar-nav my-header">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">商品详情</h1>
+    </header>
+
+    <nav class="mui-bar mui-bar-tab my-footer">
+        <a class="mui-tab-item mui-active" href="index.html">
+            <span class="mui-icon mui-icon-home"></span>
+            <span class="mui-tab-label">首页</span>
+        </a>
+        <a class="mui-tab-item" href="category.html">
+            <span class="mui-icon mui-icon-bars"></span>
+            <span class="mui-tab-label">分类</span>
+        </a>
+        <a class="mui-tab-item" href="cart.html">
+            <span class="mui-icon fa fa-shopping-cart"></span>
+            <span class="mui-tab-label">购物车</span>
+        </a>
+        <a class="mui-tab-item" href="user.html">
+            <span class="mui-icon mui-icon-person"></span>
+            <span class="mui-tab-label">会员中心</span>
+        </a>
+    </nav>
+
+
+
+    <div class="mui-scroll-wrapper">
+        <div class="mui-scroll">
+            <!--这里放置真实显示的DOM内容-->
+            <div id="contentBox">
+                <div id="slider" class="mui-slider">
+                    <div class="mui-slider-group">
+                        <!-- 第一张 -->
+                        <div class="mui-slider-item">
+                            <img src="./images/banner1.png">
+                        </div>
+                    </div>
+                </div>
+                <div class="title">
+                    【莹恋】MIZUNO美津浓V1GA159002乒乓球鞋男鞋女鞋室内综合训练鞋
+                </div>
+                <div class="priceBox">
+                    价格：
+                    <span>￥112</span>
+                    <span>￥342</span>
+                </div>
+                <!-- 接着做尺码 -->
+                <div class="sizeBox">
+                    尺码：
+                    <span>35</span>
+                </div>
+                <!-- /接着做尺码 -->
+                <div class="numBox mui-clearfix">
+                    <a>数量：</a>   
+                    <span id="reduce">-</span>
+                    <input type="text" class="numBox-inp" value="1">
+                    <span id="increase">+</span>
+                    剩余： <i>44</i>件
+                </div>
+                <div class="detail-buttons mui-clearfix">
+                    <a href="#">查看购物车</a>
+                    <span id="addCart" >加入购物车</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+<script type="text/template" id="template">
+        <div id="slider" class="mui-slider">
+            <div class="mui-slider-group">
+              
+              <%  for(var i=0;i < pic.length;i++) { %>
+                    <div class="mui-slider-item">
+                        <img src="<%=pic[i].picAddr %>">
+                    </div>
+              <%  } %>
+        
+            </div>
+        </div>
+        <div class="title">
+            <%=proName %>
+        </div>
+        <div class="priceBox">
+            价格：
+            <span>￥<%=price %></span>
+            <span>￥<%=oldPrice %></span>
+        </div>
+       
+        <div class="sizeBox">
+            尺码：
+        <%  var size = size.split("-");
+            for(var i=size[0];i<=size[1];i++) { %>
+                <span><%=i %></span>
+         <%    }   %>
+           
+        </div>
+       
+        <div class="numBox mui-clearfix">
+            <a>数量：</a>   
+            <span id="reduce">-</span>
+            <input type="text" class="numBox-inp" value="1">
+            <span id="increase">+</span>
+            剩余： <i><%=num %></i>件
+        </div>
+        <div class="detail-buttons mui-clearfix">
+            <a href="#" id="seeCart">查看购物车</a>
+            <span id="addCart">加入购物车</span>
+        </div>
+
+
+</script>
+<script>
+    mui('.mui-scroll-wrapper').scroll({
+        deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+    });
+</script>
+
+</html>

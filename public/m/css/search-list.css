@@ -1,0 +1,24 @@
+
+* {
+     touch-action: pan-y; 
+}
+#refreshContainer {
+    position: absolute;
+    top: 44px;
+    bottom: 50px;
+    left: 0px;
+    width: 100%;
+}
+.container {
+    padding: 10px;
+}
+.container .search-bar {
+    text-align: center;
+    background-color: #efeff4;
+    padding: 10px 0;
+    font-size: 14px;
+}
+.product a .name {
+    overflow: hidden;
+}
+

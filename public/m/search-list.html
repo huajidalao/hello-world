@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>search-list</title>
+    <link rel="stylesheet" href="assets/mui/css/mui.min.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="assets/fontAwesome/css/font-awesome.min.css">
+    <script src="assets/zepto/zepto.min.js"></script>
+    <script src="assets/mui/js/mui.min.js"></script>
+    <link rel="stylesheet" href="css/search-list.css">
+    <script src="assets/artTemplate/template-native.js"></script>
+    <script src="js/public.js"></script>
+</head>
+
+<body>
+    <header class="mui-bar mui-bar-nav my-header">
+        <h1 class="mui-title">搜索中心</h1>
+        <a href="" class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+    </header>
+    <nav class="mui-bar mui-bar-tab my-footer">
+        <a class="mui-tab-item mui-active" href="index.html">
+            <span class="mui-icon mui-icon-home"></span>
+            <span class="mui-tab-label">首页</span>
+        </a>
+        <a class="mui-tab-item" href="category.html">
+            <span class="mui-icon mui-icon-bars"></span>
+            <span class="mui-tab-label">分类</span>
+        </a>
+        <a class="mui-tab-item" href="cart.html">
+            <span class="mui-icon fa fa-shopping-cart"></span>
+            <span class="mui-tab-label">购物车</span>
+        </a>
+        <a class="mui-tab-item" href="user.html">
+            <span class="mui-icon mui-icon-person"></span>
+            <span class="mui-tab-label">会员中心</span>
+        </a>
+    </nav>
+
+    <div id="refreshContainer">
+        <div>
+            <div class="container">
+                <div class="mui-row">
+                    <div class="mui-col-xs-6 search-bar" id="priceSort">
+                        价格&nbsp;<span class="fa fa-angle-down"></span>
+                    </div>
+                    <div class="mui-col-xs-6 search-bar" id="numSort">
+                        销量&nbsp;<span class="fa fa-angle-down"></span>
+                    </div>
+                </div>
+
+
+                <div class="list">
+                    <ul class="product mui-clearfix">
+
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<!-- 模板 -->
+<script type="text/template" id="template">
+  <%  for(var i=0;i<data.length;i++) { %>
+        <li>
+            <a href="detail.html?id=<%=data[i].id %>">
+                <img src="<%=data[i].pic[0].picAddr %>" alt="">
+                <span class="name"><%=data[i].proName %></span>
+                <p>
+                    <span>￥<%=data[i].price %></span>
+                    <span>￥<%=data[i].oldPrice %></span>
+                </p>
+                <button class="buy-now">立即购买</button>
+            </a>
+        </li>
+   <% } %>
+</script>
+<script>
+    var page = 1;
+    var url = location.href;
+    var name = "name";
+    var html = "";
+    mui.init({
+        pullRefresh: {
+            container: "#refreshContainer",//待刷新区域标识，querySelector能定位的css选择器均可，比如：id、.class等
+            up: {
+                height: 50,//可选.默认50.触发上拉加载拖动距离
+                auto: true,//可选,默认false.自动上拉加载一次
+                contentrefresh: "正在加载...",//可选，正在加载状态时，上拉加载控件上显示的标题内容
+                contentnomore: '没有更多数据了',//可选，请求完毕若没有更多数据时显示的提醒内容；
+                callback: getData //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+            }
+        }
+    });
+    var This = null;
+    function getData() {
+        //这里this的指向在事件调用的时候会改变的，而我们的需要是让它一直指向上滑组件对象
+        if(!This) {
+            //第一次页面加载就会让this指向上滑组件对象，然后就一直不变了
+            This = this;
+        }
+        var proName = getParamsByUrl(url,name);
+        console.log(numSort)
+        $.ajax({
+            type: "get",
+            dataType: "json",
+            url: "/product/queryProduct",
+            data: {
+                page: page++,
+                pageSize: 3,
+                proName: proName,
+                price: priceSort,
+                num: numSort
+            },
+            success: function (res) {
+                if (res.data.length > 0) {
+                    html += template("template", res);
+                    $(".product").html(html);
+                    This.endPullupToRefresh(false);
+                } else {
+                    This.endPullupToRefresh(true);
+                }
+                console.log(res)
+            }
+        })
+    }
+    function getParamsByUrl(url,name) {
+        //将页面的keywords获得
+        var params = url.substr(url.indexOf("?")+1);
+        //获得？后面的键值对了，然后用&打断
+        var param = params.split("&");
+        //这样param是只有键值对=，的数组
+        for(var i=0;i<param.length;i++) {
+            var current = param[i].split("=");
+            if(name == current[0]) {
+                return current[1];
+            }
+        }
+        //如果没有符合的,返回false
+        return false;
+    }
+
+    //接着做价格排序,因为是点击后排序是交替的，可以用三元表达式
+    var priceSort = 1;
+    $("#priceSort").on("tap",function(){
+        //要初始化页面，和初始化上滑事件
+        html = "";
+        priceSort = priceSort ==1 ? 2 : 1;
+        //因为这个上滑是个事件，只要上滑就会触发，所以初始化就完事了
+        //需要重置page为1，因为page是全局变量
+        page = 1;
+        mui('#refreshContainer').pullRefresh().refresh(true);
+        getData();
+    })
+    //接下来做销量排序
+    var numSort = 1;
+    $("#numSort").on("tap",function(){
+        numSort = numSort == 1 ? 2 : 1;
+        html = "";
+        page = 1;
+        mui('#refreshContainer').pullRefresh().refresh(true);
+        getData();
+    })
+</script>

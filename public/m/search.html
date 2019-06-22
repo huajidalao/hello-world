@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="assets/mui/css/mui.min.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="assets/fontAwesome/css/font-awesome.min.css">
+    <script src="assets/zepto/zepto.min.js"></script>
+    <script src="assets/mui/js/mui.min.js"></script>
+    <link rel="stylesheet" href="css/search.css">
+    <script src="assets/artTemplate/template-native.js"></script>
+</head>
+
+<body>
+    <header class="mui-bar mui-bar-nav my-header">
+        <h1 class="mui-title">搜索中心</h1>
+        <a href="" class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+    </header>
+    <nav class="mui-bar mui-bar-tab my-footer">
+        <a class="mui-tab-item mui-active" href="index.html">
+            <span class="mui-icon mui-icon-home"></span>
+            <span class="mui-tab-label">首页</span>
+        </a>
+        <a class="mui-tab-item" href="category.html">
+            <span class="mui-icon mui-icon-bars"></span>
+            <span class="mui-tab-label">分类</span>
+        </a>
+        <a class="mui-tab-item" href="cart.html">
+            <span class="mui-icon fa fa-shopping-cart"></span>
+            <span class="mui-tab-label">购物车</span>
+        </a>
+        <a class="mui-tab-item" href="user.html">
+            <span class="mui-icon mui-icon-person"></span>
+            <span class="mui-tab-label">会员中心</span>
+        </a>
+    </nav>
+
+    <div class="mui-scroll-wrapper btn">
+        <div class="mui-scroll">
+            <!--这里放置真实显示的DOM内容-->
+            <!-- 搜索栏内容开始 -->
+            <div class="container">
+                <div class="search">
+                    <input class="search-text" placeholder="搜索你喜欢的商品"></input>
+                    <input type="button" value="搜索" class="search-button">
+                </div>
+                <!-- 搜索历史 -->
+                <div class="history">
+                    搜索历史
+                    <span class="icon_clear fa fa-trash mui-pull-right">清空历史</span>
+
+                </div>
+                <!-- /搜索历史 -->
+
+                <!-- 生成历史记录 -->
+                <ul class="mui-table-view" id="historySearch">
+
+                </ul>
+                <!-- /生成历史记录 -->
+            </div>
+
+            <!-- /搜索栏内容开始 -->
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script type="text/template" id="clearNew">
+   <% for(var i=arr.length-1;i>=0;i--) { %>
+        <li class="mui-table-view-cell"><%=arr[i] %></li>
+   <% } %>
+
+</script>
+<script>
+    // localStorage.setItem("keywords",JSON.stringify(["huaxin"]) );
+    $(".search .search-button").on("click", function () {
+        // 因为本地存储的数据要用字符串保存
+        // 业务逻辑：一刷新到本页面，就将本地存储里的数据加载到页面上
+        var text = $(this).siblings(".search-text").val();
+        if (text.trim()) {
+             str = localStorage.getItem("keywords");
+            if(str) {
+                localArr = JSON.parse(str);
+                //存入本地数据的时候，要判断数组里有没有相同的数据，如果有就只能存一个，而且得存在最后，这样加载的时候才能排在前面
+                if(localArr.indexOf(text) != -1) {
+                    var index = localArr.indexOf(text);
+                    localArr.splice(index,1);
+                    localArr.push(text);
+                } else {
+                    localArr.push(text);
+                }
+                localStorage.setItem("keywords", JSON.stringify(localArr));
+            }  else {
+                //如果没有就设置一个空数组，去存
+                localArr = [];
+                localArr.push(text);
+                localStorage.setItem("keywords", JSON.stringify(localArr));
+            }
+            location.href="./search-list.html?name="+text;
+            // 先判断输入的数据本地里是否存储
+        } else {
+            alert("请输入文字")
+        }
+        locaton.href="";
+    })
+
+    // 现在做一刷新网页，就渲染页面
+    var str = localStorage.getItem("keywords");
+    if(str) {
+        var localArr = JSON.parse(str);
+        var html = template("clearNew",{arr: localArr});
+        $("#historySearch").html(html);
+    }
+
+
+
+
+
+
+
+</script>

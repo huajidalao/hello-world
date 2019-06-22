@@ -1,0 +1,95 @@
+
+div.mui-scroll-wrapper {
+    position: absolute;
+    top: 44px;
+    bottom: 50px;
+    width: 100%;
+    left: 0;
+}
+
+#contentBox .title {
+    padding: 10px;
+   
+}
+
+#contentBox .priceBox {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+}
+.priceBox {
+    font-size: 14px;
+}
+.priceBox span:first-child {
+    color: #ea543d;
+    font-size: 24px;
+    margin-right: 8px;
+}
+
+.priceBox span:last-child {
+    font-size: 12px;
+    color: #ccc;
+    text-decoration: line-through;
+}
+.sizeBox {
+    padding: 10px;
+}
+.sizeBox span{
+    display: inline-block;
+    height: 28px;
+    width: 28px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    line-height: 28px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+.numBox {
+    padding: 10px;
+    line-height: 28px;
+    font-size: 14px;
+}
+.numBox .numBox-inp {
+    margin: 0;
+    padding: 0;
+    border-right: none;
+    border-left: none;
+    border-radius: 0;
+    width: 28px;
+    height: 28px;
+    vertical-align: top;
+    line-height: normal;
+}
+.numBox span {
+    width: 28px;
+    height: 28px;
+    border: 1px solid #ccc;
+    line-height: 28px;
+    text-align: center;
+}
+.numBox a,.numBox span,.numBox input {
+    float: left;
+} 
+.numBox a {
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+}
+
+.detail-buttons {
+    padding: 10px;
+    /* margin-bottom: 10px; */
+}
+.detail-buttons a,.detail-buttons span {
+    float: left;
+    width: 50%;
+    text-align: center;
+    height: 34px;
+    line-height: 34px;
+    background-color: orange;
+    font-size: 14px;
+}
+.detail-buttons span {
+    background-color: red;
+}
